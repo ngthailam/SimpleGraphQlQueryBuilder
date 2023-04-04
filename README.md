@@ -1,8 +1,10 @@
-A Simple Query builder for GraphQl API calls.
+## Overview
+
+A Simple Query builder for GraphQl API calls. Use to support [graphql](https://pub.dev/packages/graphql)
 
 ## Features
 
-- A simple GraphQl Query builder
+- Build simple GraphQl query string
 
 ## Usage
 
