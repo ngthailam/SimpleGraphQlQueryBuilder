@@ -1,39 +1,75 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
-
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
-
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+A Simple Query builder for GraphQl API calls.
 
 ## Features
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+- A simple GraphQl Query builder
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
+### Sample usage
 
 ```dart
-const like = 'sample';
+final query = QueryBuilder(
+    queryName: 'HeroAndFriends',
+    name: 'hero',
+    type: QueryBuilderType.query,
+    variables: [
+        QueryVariable(name: 'episode', type: 'Episode!', defaultValue: 'JEDI'),
+    ],
+    fields: {
+        'name': null,
+        'friends': {
+            'name': null,
+        }
+    },
+).build();
 ```
 
-## Additional information
+Will result in the following query
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+```
+query HeroNameAndFriends($episode: Episode = JEDI) {
+  hero(episode: $episode) {
+    name
+    friends {
+      name
+    }
+  }
+}
+```
+
+### Usage with graphql package
+
+`query` is derived from `QueryBuilder` from the example above
+
+```dart
+final QueryResult result = await client.query(query);
+```
+
+## Arguments
+
+### QueryVariable
+
+| Name | In Example Query         | Requirement | Note |
+| ---- | ------------------------ | ----------- | ---- |
+| name | $episode    | Must match GraphQl schema | |
+| type | Episode    | Must match GraphQl schema | If required, use Episode! |
+| schemaName | episode    | Must match GraphQl schema | Default value is derived from param `name` |
+| defaultValue | JEDI    | None | If empty, nothing happens |
+
+### QueryBuilderType
+
+| Name     | Desc                     |
+| -------- | ------------------------ |
+| query    | Use for `query` calls    |
+| mutation | Use for `mutation` calls |
+
+### QueryBuilder
+
+| Name      | In Example Query                                   | Requirement                   | Note                                          |
+| --------- | -------------------------------------------------- | ----------------------------- | --------------------------------------------- |
+| queryName | HeroNameAndFriends                                 | Can be anything you want      | Default value will be taken from param `name` |
+| name      | hero                                               | Must match the GraphQl        |                                               |
+| type      | query                                              | Must be type QueryBuilderType | Refer to QueryBuilderType                     |
+| variables | ($episode: Episode = JEDI) and (episode: $episode) | Must be type QueryVariable    | Refer to QueryVariable                        |
+| fields    | name friends { name }                              | Must be type QueryBuilderType | Refer to QueryBuilderType                     |
