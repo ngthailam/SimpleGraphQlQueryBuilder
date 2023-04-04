@@ -1,0 +1,4 @@
+enum QueryBuilderType {
+  query,
+  mutation;
+}
