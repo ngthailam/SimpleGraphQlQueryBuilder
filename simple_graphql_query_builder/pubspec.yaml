@@ -19,6 +19,7 @@ platforms:
 dependencies:
   flutter:
     sdk: flutter
+  meta: ^1.7.0
 
 dev_dependencies:
   flutter_test:
