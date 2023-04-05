@@ -3,7 +3,9 @@ import 'package:analyzer/dart/element/element.dart';
 
 class ModelVisitor extends SimpleElementVisitor<void> {
   String className = '';
-  final Map<String, dynamic> fields = {};
+  final Map<String, FieldElement> fields = {};
+
+  bool get hasFields => fields.isNotEmpty;
 
   @override
   void visitConstructorElement(ConstructorElement element) {
@@ -13,13 +15,6 @@ class ModelVisitor extends SimpleElementVisitor<void> {
 
   @override
   void visitFieldElement(FieldElement element) {
-    final elementType = element.type.toString();
-    final visitor = ModelVisitor();
-    final x = element;
-    x.visitChildren(visitor);
-
-    print('${element.name} - ${visitor.fields.length} - ${visitor.className}');
-
-    fields[element.name] = elementType.replaceFirst('*', '');
+    fields[element.name] = element;
   }
 }

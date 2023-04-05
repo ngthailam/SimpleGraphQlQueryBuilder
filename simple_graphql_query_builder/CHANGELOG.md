@@ -1,3 +1,7 @@
+## 0.0.4
+
+* Add const queryResult and add constructor for QueryResult
+
 ## 0.0.3
 
 * Add QueryResult and QueryResultField annotation

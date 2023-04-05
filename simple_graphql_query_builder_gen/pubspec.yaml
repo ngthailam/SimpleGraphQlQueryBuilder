@@ -10,7 +10,9 @@ environment:
 dependencies:
   build:
   source_gen:
-  simple_graphql_query_builder: ^0.0.3
+  analyzer: ^5.7.0
+  simple_graphql_query_builder: ^0.0.3  
+  meta: ^1.8.0
 
 dev_dependencies:
   # 4

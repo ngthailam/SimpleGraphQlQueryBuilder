@@ -2,8 +2,10 @@ import 'package:meta/meta_meta.dart';
 
 @Target({TargetKind.classType})
 class QueryResult {
-  //
+  const QueryResult();
 }
+
+const queryResult = QueryResult();
 
 @Target({TargetKind.field})
 class QueryResultField {

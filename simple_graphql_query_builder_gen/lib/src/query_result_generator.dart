@@ -17,19 +17,43 @@ class QueryResultGenerator extends GeneratorForAnnotation<QueryResult> {
         element: element,
       );
     }
-
     final visitor = ModelVisitor();
     element.visitChildren(visitor);
 
     // Write into map
     final classBuffer = StringBuffer();
     classBuffer.writeln(
-      'final Map<String,dynamic> ${visitor.className}QueryResult  = {',
+      'final Map<String,dynamic> ${visitor.className}QueryResult = {',
     );
 
-    classBuffer.writeln('};');
+    visitor.fields.forEach((key, value) {
+      classBuffer.writeln(_fieldToMapString(element: value));
+    });
 
+    classBuffer.writeln('};');
     // Final output
     return classBuffer.toString();
+  }
+
+  String _fieldToMapString({FieldElement? element}) {
+    if (element == null) return '';
+
+    print('zzll running for ${element.name} - ${element.children.length}');
+
+    if (element.children.isEmpty) return '\'${element.name}\': null, \n';
+
+    String result = '';
+    element.children.forEach((childElement) {
+      final hasChildren = childElement.children.isNotEmpty;
+      if (hasChildren) {
+        result += '{';
+      }
+      result += _fieldToMapString(element: childElement as FieldElement);
+      if (hasChildren) {
+        result += '},';
+      }
+    });
+
+    return result;
   }
 }
