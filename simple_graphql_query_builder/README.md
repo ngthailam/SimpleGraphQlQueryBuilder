@@ -38,6 +38,37 @@ query HeroNameAndFriends($episode: Episode = JEDI) {
 }
 ```
 
+<b>Note</b>
+
+You can you `.toJson()` or `.toMap()` for `fields`, for example:
+
+```dart
+class Hero {
+  final String? name;
+
+  const Hero({this.name});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': this.name,
+    }
+  }
+}
+```
+
+```dart
+final query = QueryBuilder(
+    queryName: 'HeroAndFriends',
+    name: 'hero',
+    type: QueryBuilderType.query,
+    variables: [
+        QueryVariable(name: 'episode', type: 'Episode!', defaultValue: 'JEDI'),
+    ],
+    fields: Hero(name: 'xyz').toJson(),
+).build();
+```
+</br>
+
 ### Usage with graphql package
 
 `query` is derived from `QueryBuilder` from the example above
@@ -46,16 +77,18 @@ query HeroNameAndFriends($episode: Episode = JEDI) {
 final QueryResult result = await client.query(query);
 ```
 
+</br>
+
 ## Arguments
 
 ### QueryVariable
 
-| Name | In Example Query         | Requirement | Note |
-| ---- | ------------------------ | ----------- | ---- |
-| name | $episode    | Must match GraphQl schema | |
-| type | Episode    | Must match GraphQl schema | If required, use Episode! |
-| schemaName | episode    | Must match GraphQl schema | Default value is derived from param `name` |
-| defaultValue | JEDI    | None | If empty, nothing happens |
+| Name         | In Example Query | Requirement               | Note                                       |
+| ------------ | ---------------- | ------------------------- | ------------------------------------------ |
+| name         | $episode         | Must match GraphQl schema |                                            |
+| type         | Episode          | Must match GraphQl schema | If required, use Episode!                  |
+| schemaName   | episode          | Must match GraphQl schema | Default value is derived from param `name` |
+| defaultValue | JEDI             | None                      | If empty, nothing happens                  |
 
 ### QueryBuilderType
 
@@ -72,4 +105,4 @@ final QueryResult result = await client.query(query);
 | name      | hero                                               | Must match the GraphQl        |                                               |
 | type      | query                                              | Must be type QueryBuilderType | Refer to QueryBuilderType                     |
 | variables | ($episode: Episode = JEDI) and (episode: $episode) | Must be type QueryVariable    | Refer to QueryVariable                        |
-| fields    | name friends { name }                              | Must be type QueryBuilderType | Refer to QueryBuilderType                     |
+| fields    | name friends { name }                              | Map of fields                 | Can use together with toJson()                |

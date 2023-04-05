@@ -1,0 +1,14 @@
+targets:
+  $default:
+    builders:
+      simple_graphql_query_builder_gen:
+        enabled: true
+
+builders:
+  simple_graphql_query_builder_gen:
+    import: "package:simple_graphql_query_builder_gen/builder.dart"
+    builder_factories: ["queryResultBuilder"]
+    build_extensions: { ".dart": [".g.dart"] }
+    auto_apply: dependents
+    build_to: cache
+    applies_builders: ["source_gen|combining_builder"]

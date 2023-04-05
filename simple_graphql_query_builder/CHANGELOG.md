@@ -1,4 +1,6 @@
+## 0.0.3
 
+* Add QueryResult and QueryResultField annotation
 ## 0.0.2
 
 * Add example folder and update package description
