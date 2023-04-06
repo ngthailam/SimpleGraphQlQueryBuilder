@@ -9,20 +9,6 @@ import 'package:simple_graphql_query_builder_gen/src/utils/dart_type_ext.dart';
 import 'package:simple_graphql_query_builder_gen/src/utils/general_utils.dart';
 import 'package:source_gen/source_gen.dart';
 
-//   const checker = TypeChecker.fromRuntime(CopyWithField);
-//   final annotation = checker.firstAnnotationOf(fieldElement);
-//   if (annotation is! DartObject) {
-//     return defaults;
-//   }
-
-//   final reader = ConstantReader(annotation);
-//   final immutable = reader.peek('immutable')?.boolValue;
-
-//   return CopyWithFieldAnnotation(
-//     immutable: immutable ?? defaults.immutable,
-//   );
-// }
-
 const String instanceName = 'instance';
 
 class QueryResultGenerator extends GeneratorForAnnotation<QueryResult> {
@@ -86,7 +72,6 @@ class QueryResultGenerator extends GeneratorForAnnotation<QueryResult> {
     final generatedMethodType = 'Map<String,dynamic> ';
     final generatedMethodName =
         '_${className}${_settings.functionName.capitalize()}';
-    final generatedMethodInput = '${element.thisType} $instanceName';
-    return '$generatedMethodType $generatedMethodName($generatedMethodInput) => {';
+    return 'static $generatedMethodType $generatedMethodName() => {';
   }
 }
