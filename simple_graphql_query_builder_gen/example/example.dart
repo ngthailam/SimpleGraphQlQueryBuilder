@@ -3,7 +3,7 @@ import 'package:simple_graphql_query_builder/simple_graphql_query_builder.dart';
 part 'example.g.dart';
 
 @queryResult
-class Example {
+class Example with _$Example {
   final String? name;
   @QueryResultField(ignore: false, name: 'Test')
   final InnerExample? innerExample;
@@ -15,15 +15,15 @@ class Example {
     this.innerExample,
     required this.innerExample2,
   });
-
-  Map<String, dynamic> toQueryResult() => _ExampleToQueryResult(this);
 }
 
 @queryResult
-class InnerExample {
+class InnerExample with _$InnerExample {
   final bool? innerField1;
 
   InnerExample({this.innerField1});
+}
 
-  Map<String, dynamic> toQueryResult() => _InnerExampleToQueryResult(this);
+void abc() {
+  Example.ExampletoQueryResult();
 }

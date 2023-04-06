@@ -33,35 +33,40 @@ class QueryResultGenerator extends GeneratorForAnnotation<QueryResult> {
 
     // Write method header
     final classBuffer = StringBuffer();
+
+    classBuffer.write('class _\$${visitor.className} {');
     classBuffer.writeln(
         _generatedMethodHeader(className: visitor.className, element: element));
 
-    // Write method contents
-    visitor.fields.forEach((key, value) {
-      final targetType = value.type;
-      final fieldSettings = FieldSettings.fromFieldElement(value);
+    // // Write method contents
+    // visitor.fields.forEach((key, value) {
+    //   final targetType = value.type;
+    //   final fieldSettings = FieldSettings.fromFieldElement(value);
 
-      if (!fieldSettings.ignore) {
-        final interfaceType = targetType as InterfaceType;
-        final toQueryResultMethod =
-            targetType.getMethod(_settings.functionName);
+    //   if (!fieldSettings.ignore) {
+    //     final interfaceType = targetType as InterfaceType;
+    //     final toQueryResultMethod =
+    //         targetType.getMethod(_settings.functionName);
 
-        String fieldValue = '';
-        if (toQueryResultMethod != null) {
-          final elvisOperator = interfaceType.isNullableType ? '?' : '';
-          fieldValue =
-              '$instanceName.$key$elvisOperator.${_settings.functionName}()';
-        } else {
-          fieldValue = '$instanceName.$key';
-        }
+    //     String fieldValue = '';
+    //     if (toQueryResultMethod != null) {
+    //       final elvisOperator = interfaceType.isNullableType ? '?' : '';
+    //       fieldValue =
+    //           '$instanceName.$key$elvisOperator.${_settings.functionName}()';
+    //     } else {
+    //       fieldValue = '$instanceName.$key';
+    //     }
 
-        final fieldKey = fieldSettings.name != null ? fieldSettings.name : key;
-        classBuffer.writeln('\'$fieldKey\': $fieldValue,');
-      }
-    });
+    //     final fieldKey = fieldSettings.name != null ? fieldSettings.name : key;
+    //     classBuffer.writeln('\'$fieldKey\': $fieldValue,');
+    //   }
+    // });
 
-    // Close method
+    // // Close method
     classBuffer.writeln('};');
+
+    // Close class
+    classBuffer.writeln('}');
     return classBuffer.toString();
   }
 
@@ -71,7 +76,7 @@ class QueryResultGenerator extends GeneratorForAnnotation<QueryResult> {
   }) {
     final generatedMethodType = 'Map<String,dynamic> ';
     final generatedMethodName =
-        '_${className}${_settings.functionName.capitalize()}';
+        '${className.lowerCaseFirstLetter()}${_settings.functionName}';
     return 'static $generatedMethodType $generatedMethodName() => {';
   }
 }
