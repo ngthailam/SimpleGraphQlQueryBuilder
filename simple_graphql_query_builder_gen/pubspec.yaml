@@ -1,6 +1,6 @@
 name: simple_graphql_query_builder_gen
 description: A generator for package simple_graphql_query_builder to reduce boilerplate code.
-version: 0.0.1
+version: 0.1.0
 homepage:
 repository: https://github.com/ngthailam/SimpleGraphQlQueryBuilder/tree/main/simple_graphql_query_builder_gen
 

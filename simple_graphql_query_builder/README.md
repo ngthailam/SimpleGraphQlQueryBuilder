@@ -3,6 +3,7 @@ A Simple Query builder for GraphQl API calls.
 ## Features
 
 - A simple GraphQl Query builder
+- Can be used with `simple_graphql_query_builder_gen` to help with query result generations.
 
 ## Usage
 
@@ -40,7 +41,7 @@ query HeroNameAndFriends($episode: Episode = JEDI) {
 
 <b>Note</b>
 
-You can you `.toJson()` or `.toMap()` for `fields`, for example:
+You can you `.toJson()` or `.toMap()` from library such as `json_serializable` for `fields`, for example:
 
 ```dart
 class Hero {

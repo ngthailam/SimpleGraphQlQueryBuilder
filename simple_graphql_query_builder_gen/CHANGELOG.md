@@ -1,3 +1,3 @@
-## 0.0.1
+## 0.1.0
 
-* Initialize generator
+* Complete package, compatible with `simple_graphql_query_builder` version `0.1.x`

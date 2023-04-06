@@ -1,3 +1,8 @@
+## 0.1.0
+
+* Add `name` to QueryResultField
+* Working with `simple_graphql_query_builder_gen`
+
 ## 0.0.4
 
 * Add const queryResult and add constructor for QueryResult
