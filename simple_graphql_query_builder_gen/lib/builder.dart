@@ -2,9 +2,18 @@
 library simple_graphql_query_builder_gen;
 
 import 'package:build/build.dart';
+import 'package:simple_graphql_query_builder/simple_graphql_query_builder.dart';
 import 'package:simple_graphql_query_builder_gen/src/query_result_generator.dart';
+import 'package:simple_graphql_query_builder_gen/src/settings.dart';
 import 'package:source_gen/source_gen.dart';
 
-// 4
-Builder queryResultBuilder(BuilderOptions options) =>
-    SharedPartBuilder([QueryResultGenerator()], 'query_result_generator');
+Builder queryResultBuilder(BuilderOptions options) {
+  final result = QueryResult();
+
+  return SharedPartBuilder(
+    [
+      QueryResultGenerator(Settings.fromQueryResult(result)),
+    ],
+    'query_result_generator',
+  );
+}

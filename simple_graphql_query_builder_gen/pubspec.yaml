@@ -11,8 +11,7 @@ dependencies:
   build:
   source_gen:
   analyzer: ^5.7.0
-  simple_graphql_query_builder: ^0.0.3  
-  meta: ^1.8.0
+  simple_graphql_query_builder: ^0.0.4
 
 dev_dependencies:
   # 4
