@@ -3,7 +3,7 @@ A Simple Query builder for GraphQl API calls.
 ## Features
 
 - A simple GraphQl Query builder
-- Can be used with `simple_graphql_query_builder_gen` to help with query result generations.
+- Can be used with [simple_graphql_query_builder_gen](https://pub.dev/packages/simple_graphql_query_builder_gen) to help with query result generations.
 
 ## Usage
 

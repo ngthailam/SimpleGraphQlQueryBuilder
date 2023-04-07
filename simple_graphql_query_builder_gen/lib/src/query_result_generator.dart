@@ -1,15 +1,11 @@
-import 'package:analyzer/dart/element/type.dart';
 import 'package:build/src/builder/build_step.dart';
 import 'package:analyzer/dart/element/element.dart';
 import 'package:simple_graphql_query_builder/simple_graphql_query_builder.dart';
-import 'package:simple_graphql_query_builder_gen/src/field_settings.dart';
-import 'package:simple_graphql_query_builder_gen/src/model_visitor.dart';
-import 'package:simple_graphql_query_builder_gen/src/settings.dart';
-import 'package:simple_graphql_query_builder_gen/src/utils/dart_type_ext.dart';
+import 'package:simple_graphql_query_builder_gen/src/settings/field_settings.dart';
+import 'package:simple_graphql_query_builder_gen/src/utils/model_visitor.dart';
+import 'package:simple_graphql_query_builder_gen/src/settings/settings.dart';
 import 'package:simple_graphql_query_builder_gen/src/utils/general_utils.dart';
 import 'package:source_gen/source_gen.dart';
-
-const String instanceName = 'instance';
 
 class QueryResultGenerator extends GeneratorForAnnotation<QueryResult> {
   final Settings _settings;
@@ -34,39 +30,33 @@ class QueryResultGenerator extends GeneratorForAnnotation<QueryResult> {
     // Write method header
     final classBuffer = StringBuffer();
 
-    classBuffer.write('class _\$${visitor.className} {');
     classBuffer.writeln(
-        _generatedMethodHeader(className: visitor.className, element: element));
+      _generatedMethodHeader(className: visitor.className, element: element),
+    );
+    // Open method field map
+    classBuffer.writeln('{');
 
-    // // Write method contents
-    // visitor.fields.forEach((key, value) {
-    //   final targetType = value.type;
-    //   final fieldSettings = FieldSettings.fromFieldElement(value);
+    // Write method contents
+    visitor.fields.forEach((String key, FieldElement value) {
+      final fieldSettings = FieldSettings.fromFieldElement(value);
+      if (!fieldSettings.ignore) {
+        final isCustomType = fieldSettings.isCustomType;
+        // Write individual fields
+        final fieldKey = fieldSettings.name != null ? fieldSettings.name : key;
+        if (isCustomType) {
+          final valueType = value.type;
+          final className = valueType.toString().replaceAll('?', '');
+          classBuffer.writeln(
+            '\'$fieldKey\': ${_generateFunctionName(className: className)},',
+          );
+        } else {
+          classBuffer.writeln('\'$fieldKey\': null,');
+        }
+      }
+    });
 
-    //   if (!fieldSettings.ignore) {
-    //     final interfaceType = targetType as InterfaceType;
-    //     final toQueryResultMethod =
-    //         targetType.getMethod(_settings.functionName);
-
-    //     String fieldValue = '';
-    //     if (toQueryResultMethod != null) {
-    //       final elvisOperator = interfaceType.isNullableType ? '?' : '';
-    //       fieldValue =
-    //           '$instanceName.$key$elvisOperator.${_settings.functionName}()';
-    //     } else {
-    //       fieldValue = '$instanceName.$key';
-    //     }
-
-    //     final fieldKey = fieldSettings.name != null ? fieldSettings.name : key;
-    //     classBuffer.writeln('\'$fieldKey\': $fieldValue,');
-    //   }
-    // });
-
-    // // Close method
+    // Close method field map
     classBuffer.writeln('};');
-
-    // Close class
-    classBuffer.writeln('}');
     return classBuffer.toString();
   }
 
@@ -75,8 +65,10 @@ class QueryResultGenerator extends GeneratorForAnnotation<QueryResult> {
     required String className,
   }) {
     final generatedMethodType = 'Map<String,dynamic> ';
-    final generatedMethodName =
-        '${className.lowerCaseFirstLetter()}${_settings.functionName}';
-    return 'static $generatedMethodType $generatedMethodName() => {';
+    return 'final $generatedMethodType${_generateFunctionName(className: className)}=';
+  }
+
+  String _generateFunctionName({required String className}) {
+    return '${className.lowerCaseFirstLetter()}${_settings.functionName}';
   }
 }

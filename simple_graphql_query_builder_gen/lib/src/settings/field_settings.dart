@@ -7,20 +7,25 @@ class FieldSettings {
 
   final String? name;
 
+  final bool isCustomType;
+
   FieldSettings({
     this.ignore = false,
     this.name,
+    this.isCustomType = false,
   });
 
   factory FieldSettings.fromQueryResultField(QueryResultField field) =>
       FieldSettings(
         ignore: field.ignore,
         name: field.name,
+        isCustomType: field.isCustomType,
       );
 
   factory FieldSettings.fromReader(ConstantReader reader) => FieldSettings(
         ignore: reader.peek('ignore')?.boolValue ?? false,
         name: reader.peek('name')?.stringValue,
+        isCustomType: reader.peek('isCustomType')?.boolValue ?? false,
       );
 
   factory FieldSettings.fromFieldElement(FieldElement element) {

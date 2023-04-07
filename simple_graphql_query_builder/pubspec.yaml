@@ -1,6 +1,6 @@
 name: simple_graphql_query_builder
 description: A simple GraphQl query builder to generate query as String, used together with the package `graphql`
-version: 0.1.0
+version: 0.2.2
 homepage:
 repository: https://github.com/ngthailam/SimpleGraphQlQueryBuilder/tree/main/simple_graphql_query_builder
 

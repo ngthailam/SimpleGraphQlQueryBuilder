@@ -6,10 +6,12 @@ part of 'example.dart';
 // QueryResultGenerator
 // **************************************************************************
 
-class _$Example {
-  static Map<String, dynamic> ExampletoQueryResult() => {};
-}
+final Map<String, dynamic> exampletoQueryResult = {
+  'name': null,
+  'Test2': innerExampletoQueryResult,
+  'innerExample2': innerExampletoQueryResult,
+};
 
-class _$InnerExample {
-  static Map<String, dynamic> InnerExampletoQueryResult() => {};
-}
+final Map<String, dynamic> innerExampletoQueryResult = {
+  'innerField1': null,
+};
